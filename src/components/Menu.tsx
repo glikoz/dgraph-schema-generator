@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { MdMenu } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 
 function Menu() {
-  const history = useHistory();
   let [toggleMenu, setToggleMenu] = useState(true);
 
   useEffect(() => {}, []);
 
   return (
-    <div className="flex-col shadow-md pb-2 lg:pb-4 pb-4">
+    <div className="flex-col pb-2 lg:pb-4 pb-4">
       <div className="flex w-full justify-between py-3 bg-green-500">
         <div className="lg:pr-0 flex text-white self-center items-center">
           <p className="flex text-start ml-2 ">Dgraph Schema Generator</p>
@@ -33,12 +31,7 @@ function Menu() {
         <button onClick={() => setToggleMenu(!toggleMenu)} className="h-full">
           <MdMenu size="25" className="block lg:hidden  self-center ml-2" />
         </button>
-        <button
-          onClick={() => history.push("/")}
-          className="text-lg md:text-3xl  lg:ml-4 self-center ml-4"
-        >
-          dgraph schema generator
-        </button>
+        
       </div>
     </div>
   );

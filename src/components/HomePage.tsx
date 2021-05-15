@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Metadata,
-  Repository,
-  Property,
-} from "../services/repository";
+import { Metadata, Repository, Property } from "../services/repository";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 
@@ -72,12 +68,16 @@ const FormOption = ({ label, options, value, onChange }: SelectProps) => (
 );
 
 const FormButton = ({ text, onClick, color }: ButtonProps) => (
-  <button
-    className={"text-lg px-4 py-1 h-12 text-white rounded self-center " + color}
-    onClick={onClick}
-  >
-    {text}
-  </button>
+  <div className="flex  flex-col items-start my-4">
+    <button
+      className={
+        "text-lg px-4 py-1 h-10 text-white rounded self-center " + color
+      }
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  </div>
 );
 
 function HomePage() {
@@ -97,6 +97,8 @@ function HomePage() {
       Name: propertyName,
     };
     setPropertyList((arr) => [...arr, prop]);
+    setPropertyName("");
+    setPropertyType("String");
     console.log(propertyList);
     toast.success("Property Added!");
   };
@@ -111,7 +113,7 @@ function HomePage() {
   };
 
   return (
-    <div className="container mx-20 fluid mt-12 md:text-3xl">
+    <div className=" mx-20 fluid  md:text-3xl px-20 py-8 rounded-lg w-full" style={{backgroundColor:"white"}}>
       <div className="flex flex-col items-start space-y-4 text-gray-800">
         <Title text="Create NodeMetadata (Metadata)" />
         <Subtitle text="You can create node metadatas and assign their properties in here" />
@@ -122,7 +124,7 @@ function HomePage() {
         value={nodeName}
         onChange={(e: any) => setNodeName(e.target.value)}
       />
-      <div className="flex flex-col items-start my-12 border rounded h-full p-8">
+      <div className="flex flex-col items-start my-12 border rounded p-8">
         <TitleH text="Add Properties To Node" />
         <div className="flex space-x-12">
           <FormText
@@ -138,11 +140,13 @@ function HomePage() {
             value={propertyType}
             onChange={(e: any) => setPropertyType(e.target.value)}
           />
-          <FormButton
-            text="Add Property"
-            color="bg-pink-400"
-            onClick={() => addProperty()}
-          />
+          <div className="flex">
+            <FormButton
+              text="Add Property"
+              color="bg-pink-400"
+              onClick={() => addProperty()}
+            />
+          </div>
         </div>
         <div className="flex flex-col mt-8 items-start ml-8">
           <TitleH text="Properties" />
@@ -208,6 +212,13 @@ function HomePage() {
                         </td>
                       </tr>
                     ))}
+                    {propertyList.length === 0 && (
+                      <tr className="text-base font-semibold">
+                        <span className="ml-4 text-gray-500">
+                          No properties yet
+                        </span>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -215,7 +226,7 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-4 right-4">
+      <div className="fixed bottom-4 right-12">
         <FormButton
           text="Create NodeMetadata"
           color="bg-indigo-500"

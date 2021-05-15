@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { MdHome } from "react-icons/md";
 import { GoPlus } from "react-icons/go";
 import { BsFillPeopleFill } from "react-icons/bs";
-
+import { FaList } from "react-icons/fa";
 function NavigationDrawer() {
   const history = useHistory();
 
@@ -11,8 +11,8 @@ function NavigationDrawer() {
 
   return (
     <div
-      className="flex-col items-start justify-start pb-2 lg:pb-4 w-1/5 pt-8 pl-2 rounded-xl mb-20"
-      style={{ backgroundColor: "#ffffff" }}
+      className="flex-col items-start justify-start pb-2 lg:pb-4 pt-8 pl-2 rounded-xl mb-20"
+      style={{ backgroundColor: "#ffffff", width: "23%" }}
     >
       <div className="flex ml-4">
         <button
@@ -34,6 +34,20 @@ function NavigationDrawer() {
           onClick={() => history.push("/")}
           className="text-lg ml-4 text-indigo-500 font-semibold flex"
         >
+          <FaList size="25" className="mr-2" />
+          Nodes
+        </button>
+        <button
+          onClick={() => history.push("/")}
+          className="text-lg ml-4 text-indigo-500 font-semibold flex"
+        >
+          <FaList size="25" className="mr-2" />
+          Edges
+        </button>
+        <button
+          onClick={() => history.push("/")}
+          className="text-lg ml-4 text-indigo-500 font-semibold flex"
+        >
           <GoPlus size="25" className="mr-2" />
           Create Nodes
         </button>
@@ -44,7 +58,7 @@ function NavigationDrawer() {
           <GoPlus size="25" className="mr-2" />
           Create Edges
         </button>
-
+        
         <button
           onClick={() => history.push("/")}
           className="text-lg ml-4 text-indigo-500 font-semibold flex"

@@ -9,13 +9,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
-    <div className="App  fluid h-screen" style={{backgroundColor:"#EEF2F6"}}>
+    <div className="h-screen" style={{backgroundColor:"#EEF2F6"}}>
       <Router>
         <div className="flex flex-col w-full h-full">
           <ToastContainer />
 
           <Menu />
-          <div className="flex container fluid mx-auto">
+          <div className="flex mx-auto container">
           <NavigationDrawer/>
           <div className="flex w-full" style={{backgroundColor:'#EEF2F6'}}>
           <Switch>

@@ -26,7 +26,7 @@ type ButtonProps = {
   text: string;
   color?: string;
 };
-const Title = ({ text }: TextProps) => <h1 className="text-3xl">{text}</h1>;
+const Title = ({ text }: TextProps) => <h1 className="text-3xl font-semibold">{text}</h1>;
 const TitleH = ({ text }: TextProps) => <h1 className="text-2xl">{text}</h1>;
 const Subtitle = ({ text }: TextProps) => (
   <h1 className="text-xl text-gray-300">{text}</h1>
@@ -140,7 +140,7 @@ function HomePage() {
             value={propertyType}
             onChange={(e: any) => setPropertyType(e.target.value)}
           />
-          <div className="flex">
+          <div className="flex" style={{alignItems:"flex-end"}}>
             <FormButton
               text="Add Property"
               color="bg-pink-400"

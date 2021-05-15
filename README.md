@@ -1,3 +1,14 @@
+# UI 
+
+Main
+  - Left Navigation Panel
+      - Nodes (List of Nodes)
+      - Edges
+      - About
+   
+
+
+
 # React Tailwind Boilerplate Starter Template
 
 Minimal React CRA project to start developing using [Tailwind CSS](https://tailwindcss.com/) framework to make responsive web designs. Project also has dependency to [React Router](https://reactrouter.com/).

@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
+import {Metadata, Repository} from "../services/repository";
 
 function HomePage() {
     useEffect(() => {
-
+        let rep: Repository = new Repository();
+        rep.UpsertMetadata(new Metadata());
     }, []);
 
     return (

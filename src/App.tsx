@@ -33,7 +33,7 @@ function App() {
             <Route
               path="/"
               component={() => (
-                <HomePage />
+                <HomePage/>
               )}
             />
           </Switch>

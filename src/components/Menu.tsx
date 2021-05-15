@@ -8,7 +8,7 @@ function Menu() {
   useEffect(() => {}, []);
 
   return (
-    <div className="flex-col pb-2 lg:pb-4 pb-4">
+    <div className="flex-col pb-4">
       <div className="flex w-full justify-between py-3 bg-green-500">
         <div className="lg:pr-0 flex text-white self-center items-center">
           <p className="flex text-start ml-2 ">Dgraph Schema Generator</p>

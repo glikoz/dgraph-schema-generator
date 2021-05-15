@@ -1,43 +1,42 @@
 import { specialChars } from "@testing-library/user-event";
-import { Guid } from "guid-typescript"
+import { Guid } from "guid-typescript";
 export class Repository {
-    UpsertMetadata(md:Metadata) {
-        //window.localStorage.setItem("metadata:"+md.Id,JSON.stringify(md));
-    }
+  UpsertMetadata(md: Metadata) {
+    //window.localStorage.setItem("metadata:"+md.Id,JSON.stringify(md));
+  }
 
-    UpsertEdgeMetadata() {
+  UpsertEdgeMetadata() {}
 
-    }
-
-    GetMetadatas(){
-         
-    }
-    GetEdgeMetadatas(){
-        
-    }
+  GetMetadatas() {}
+  GetEdgeMetadatas() {}
 }
 
-
 export class Metadata {
-    Id: Guid;
-    Name: string = "";
-    Properties: Property[] = [];
+  Id: Guid;
+  Name: string = "";
+  Properties: Property[] = [];
 
-    constructor() {
-        this.Id = Guid.create();
-    }
+  constructor(name:string,properties:Property[]) {
+    this.Id = Guid.create();
+    this.Name=name;
+    this.Properties=properties;
+  }
 }
 
 export class Property {
-    Name: string = "";
-    Type: string = "ID";
+  Name: string = "";
+  Type: string = "ID";
+
+  constructor(name: string, type: string) {
+    this.Name = name;
+    this.Type = type;
+  }
 }
 
-
 export type Scalars = {
-    ID: string,
-    String: string,
-    Boolean: boolean,
-    Int: number,
-    Float: number,
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
 };

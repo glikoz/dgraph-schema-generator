@@ -1,7 +1,7 @@
 import { specialChars } from "@testing-library/user-event";
 import { Guid } from "guid-typescript";
 export class Repository {
-    UpsertMetadata(md: Metadata) {
+    UpsertMetadata(md: NodeMetadata) {
         window.localStorage.setItem("metadata:" + md.Id, JSON.stringify(md));
     }
 
@@ -16,15 +16,16 @@ export class Repository {
     }
 }
 
+// Directed, DirectedBy
 export class EdgeMetadata {
-    From: Metadata[] = [];
-    To: Metadata[] = [];
+    From: NodeMetadata[] = [];
+    To: NodeMetadata[] = [];
     Name: string = "";
-    CrossName: string = "";
+    InverseName: string = "";
 }
 
 
-export class Metadata {
+export class NodeMetadata {
     Id: Guid;
     Name: string = "";
     Properties: Property[] = [];

@@ -14,15 +14,28 @@ import {
 const PrimitiveTypes: string[] = ["ID", "String", "Boolean", "Int", "Float"];
 const defaultProperties: Property[] = [new Property("Id", "ID")];
 
-function HomePage() {
+type EditNodeMetadataProps = {
+  index: number;
+  nodemetadata: Metadata;
+  callbackMetadata: any;
+};
+
+function EditNodeMetadata({
+  index,
+  nodemetadata,
+  callbackMetadata,
+}: EditNodeMetadataProps) {
   const [nodeName, setNodeName] = useState("");
   const [propertyName, setPropertyName] = useState("");
   const [propertyType, setPropertyType] = useState("String");
   const [propertyList, setPropertyList] = useState(
     defaultProperties as Property[]
   );
+  const [showNewProperty, setShowNewProperty] = useState(false);
 
   useEffect(() => {
+    setNodeName(nodemetadata.Name);
+    setPropertyList(nodemetadata.Properties);
     // let rep: Repository = new Repository();
     // rep.UpsertMetadata(new Metadata());
   }, []);
@@ -38,7 +51,10 @@ function HomePage() {
     console.log(propertyList);
     toast.success("Property Added!");
   };
-
+  const saveChanges = () => {
+    const md: Metadata = new Metadata(nodeName, propertyList);
+    callbackMetadata(md,index);
+  };
   const createMetadata = () => {
     const md: Metadata = new Metadata(nodeName, propertyList);
     console.log("Metadata", md);
@@ -72,45 +88,55 @@ function HomePage() {
 
   return (
     <div
-      className=" mx-20 fluid  md:text-3xl px-20 py-8 rounded-lg w-full"
+      className=" md:text-3xl mx-8 py-4 rounded-lg w-full"
       style={{ backgroundColor: "white" }}
     >
-      <div className="flex flex-col items-start space-y-4 text-gray-800">
-        <Title text="Create NodeMetadata (Metadata)" />
-        <Subtitle text="You can create node metadatas and assign their properties in here" />
-      </div>
       <FormText
         label="Name:"
         placeholder="Student"
         value={nodeName}
         onChange={(e: any) => setNodeName(e.target.value)}
       />
-      <div className="flex flex-col items-start my-12 border rounded p-8">
-        <TitleH text="Add Property" />
-        <div className="flex space-x-12">
-          <FormText
-            label="Property Name:"
-            placeholder="Student Name"
-            value={propertyName}
-            onChange={(e: any) => setPropertyName(e.target.value)}
-          />
-          <FormOption
-            label="Property Type"
-            placeholder="String"
-            options={PrimitiveTypes}
-            value={propertyType}
-            onChange={(e: any) => setPropertyType(e.target.value)}
-          />
-          <div className="flex" style={{ alignItems: "flex-end" }}>
+      <div className="flex flex-col items-start rounded p-4 border">
+        <div className="flex" style={{ alignItems: "flex-end" }}></div>
+        <div className="flex flex-col mt-8 items-start">
+          <div className="flex items-center justify-between w-full">
+            <TitleH text="Properties" />
             <FormButton
-              text="Add Property"
+              text="Add New Property"
               color="bg-pink-400"
-              onClick={() => addProperty()}
+              onClick={() => {
+                setShowNewProperty(!showNewProperty);
+              }}
             />
           </div>
-        </div>
-        <div className="flex flex-col mt-8 items-start">
-          <TitleH text="Properties" />
+          {showNewProperty && (
+            <div className="flex flex-col items-start my-12 border rounded p-8">
+              <TitleH text="Add Property" />
+              <div className="flex space-x-12">
+                <FormText
+                  label="Property Name:"
+                  placeholder="Student Name"
+                  value={propertyName}
+                  onChange={(e: any) => setPropertyName(e.target.value)}
+                />
+                <FormOption
+                  label="Property Type"
+                  placeholder="String"
+                  options={PrimitiveTypes}
+                  value={propertyType}
+                  onChange={(e: any) => setPropertyType(e.target.value)}
+                />
+                <div className="flex" style={{ alignItems: "flex-end" }}>
+                  <FormButton
+                    text="Add Property"
+                    color="bg-pink-400"
+                    onClick={() => addProperty()}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
           <div className="flex flex-col ml-2 mt-4">
             <div className="w-full">
               <div className="bg-white shadow-md rounded my-6">
@@ -192,15 +218,15 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-4 right-12">
+      <div className="flex justify-end">
         <FormButton
-          text="Create NodeMetadata"
-          color="bg-indigo-500"
-          onClick={() => createMetadata()}
+          text="Save Changes"
+          color="bg-indigo-400"
+          onClick={() => saveChanges()}
         />
       </div>
     </div>
   );
 }
 
-export default HomePage;
+export default EditNodeMetadata;

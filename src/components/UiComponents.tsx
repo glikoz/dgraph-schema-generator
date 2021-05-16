@@ -68,6 +68,9 @@ export const FormOption = ({
       value={value}
       onChange={onChange}
     >
+      <option value={"Please Select"} key={"defaut"}>
+        {"Please Select"}
+      </option>
       {options.map((e: string) => (
         <option value={e} key={e}>
           {e}

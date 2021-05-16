@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NodeMetadata } from "../services/repository";
 import { MdDelete, MdEdit } from "react-icons/md";
-import EditNodeMetadata from "./EditNodeMetadata";
+import UpsertNodeMetadata from "./UpsertNodeMetadata";
 import { toast } from "react-toastify";
 import { Title, Subtitle, TitleH, FormButton } from "./UiComponents";
 
@@ -43,6 +43,7 @@ function ListNodes() {
   const updateNode = (nodeMetadata: NodeMetadata, index: number) => {
     nodeMetadatas[index] = nodeMetadata;
     setNodeMetadatas([...nodeMetadatas]);
+    console.log("updateNode", nodeMetadatas);
     window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));
   };
 
@@ -113,7 +114,7 @@ function ListNodes() {
                       </tr>
                       {showEdit[index] && (
                         <div className="flex">
-                          <EditNodeMetadata
+                          <UpsertNodeMetadata
                             nodemetadata={e}
                             index={index}
                             callbackMetadata={(e) => updateNode(e, index)}
@@ -148,7 +149,7 @@ function ListNodes() {
                         </td>
                       </tr>
                       <div className="flex">
-                        <EditNodeMetadata
+                        <UpsertNodeMetadata
                           nodemetadata={new NodeMetadata("", undefined)}
                           index={nodeMetadatas.length}
                           callbackMetadata={(e) =>

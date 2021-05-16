@@ -76,7 +76,9 @@ function UpsertEdgeMetadata({
       toNoteMetadatas
     );
     callbackMetadata(em, index);
+    setNewFrom(null);
   };
+
   const createEdgeMetadata = () => {
     const em: EdgeMetadata = new EdgeMetadata(
       edgeName,
@@ -145,14 +147,13 @@ function UpsertEdgeMetadata({
               }}
             />
           </div>
-          <div className="flex flex-col ml-2 mt-4">
+          <div className="flex flex-col ml-2">
             <div className="w-full">
               <div className="bg-white shadow-md rounded my-6">
                 <table className="w-full table-auto rounded">
                   <thead>
                     <tr className="bg-green-500 text-white uppercase text-sm leading-normal">
                       <th className="py-3 px-6 text-left">Name</th>
-                      <th className="py-3 px-6 text-left">Type</th>
                       <th className="py-3 px-6 text-center">Actions</th>
                     </tr>
                   </thead>
@@ -176,16 +177,10 @@ function UpsertEdgeMetadata({
                             </span>
                           </div>
                         </td>
-                        <td className="py-1 px-6 text-left">
-                          <div className="flex items-center">
-                            <span></span>
-                          </div>
-                        </td>
                         <td className="py-1 px-6 text-center items-center justify-center h-full">
                           <div className="flex items-center justify-items-center justify-center">
                             <MdDelete
                               size="25"
-                              className=""
                               onClick={() => {
                                 toast.success("Property Deleted!");
                               }}
@@ -194,7 +189,7 @@ function UpsertEdgeMetadata({
                         </td>
                       </tr>
                     ))}
-                    {fromNoteMetadatas.length === 0 && (
+                    {fromNoteMetadatas.length === 0 && !newFrom && (
                       <tr className="text-base font-semibold">
                         <span className="ml-4 text-gray-500">
                           No properties yet
@@ -219,11 +214,6 @@ function UpsertEdgeMetadata({
                             </span>
                           </div>
                         </td>
-                        <td className="py-1 px-6 text-left">
-                          <div className="flex items-center">
-                            <span></span>
-                          </div>
-                        </td>
                         <td className="py-1 px-6 text-center items-center justify-center h-full">
                           <div className="flex items-center justify-items-center justify-center space-x-2">
                             <FaCheck
@@ -237,13 +227,16 @@ function UpsertEdgeMetadata({
                                   fromNoteMetadatas.push(nm);
                                   setFromNodeMetadatas([...fromNoteMetadatas]);
                                   toast.success("From Added!");
+                                  setNewFrom(null);
                                 } else toast.error("Error!");
                               }}
                             />
                             <MdDelete
                               size="25"
                               onClick={() => {
-                                toast.success("Property Deleted!");
+                                setNewFrom(null);
+                                setSelectedNodeName("");
+                                toast.success("New Node Deleted!");
                               }}
                             />
                           </div>

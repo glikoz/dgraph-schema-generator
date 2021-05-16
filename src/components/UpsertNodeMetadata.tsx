@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NodeMetadata, Repository, Property } from "../services/repository";
 import { MdDelete } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
   Title,
@@ -14,24 +15,24 @@ import {
 const PrimitiveTypes: string[] = ["ID", "String", "Boolean", "Int", "Float"];
 const defaultProperties: Property[] = [new Property("Id", "ID")];
 
-type EditNodeMetadataProps = {
+type UpsertNodeMetadataProps = {
   index: number;
   nodemetadata: NodeMetadata;
   callbackMetadata: any;
 };
 
-function EditNodeMetadata({
+function UpsertNodeMetadata({
   index,
   nodemetadata,
   callbackMetadata,
-}: EditNodeMetadataProps) {
+}: UpsertNodeMetadataProps) {
   const [nodeName, setNodeName] = useState("");
   const [propertyName, setPropertyName] = useState("");
   const [propertyType, setPropertyType] = useState("String");
   const [propertyList, setPropertyList] = useState(
     defaultProperties as Property[]
   );
-  const [showNewProperty, setShowNewProperty] = useState(false);
+  const [newProperty, setNewProperty] = useState(false);
 
   useEffect(() => {
     setNodeName(nodemetadata.Name);
@@ -54,6 +55,7 @@ function EditNodeMetadata({
   const saveChanges = () => {
     const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
     callbackMetadata(md, index);
+    setNewProperty(false);
   };
   const createMetadata = () => {
     const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
@@ -106,37 +108,11 @@ function EditNodeMetadata({
               text="Add New Property"
               color="bg-pink-400"
               onClick={() => {
-                setShowNewProperty(!showNewProperty);
+                setNewProperty(true);
               }}
             />
           </div>
-          {showNewProperty && (
-            <div className="flex flex-col items-start my-12 border rounded p-8">
-              <TitleH text="Add Property" />
-              <div className="flex space-x-12">
-                <FormText
-                  label="Property Name:"
-                  placeholder="Student Name"
-                  value={propertyName}
-                  onChange={(e: any) => setPropertyName(e.target.value)}
-                />
-                <FormOption
-                  label="Property Type"
-                  placeholder="String"
-                  options={PrimitiveTypes}
-                  value={propertyType}
-                  onChange={(e: any) => setPropertyType(e.target.value)}
-                />
-                <div className="flex" style={{ alignItems: "flex-end" }}>
-                  <FormButton
-                    text="Add Property"
-                    color="bg-pink-400"
-                    onClick={() => addProperty()}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+
           <div className="flex flex-col ml-2 mt-4">
             <div className="w-full">
               <div className="bg-white shadow-md rounded my-6">
@@ -204,6 +180,61 @@ function EditNodeMetadata({
                         </td>
                       </tr>
                     ))}
+                    {newProperty && (
+                      <>
+                        <tr
+                          className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
+                          key={index}
+                        >
+                          <td className="py-1 px-6 text-left">
+                            <div className="flex items-center">
+                              <span className="font-medium text-lg -mt-1">
+                                <FormText
+                                  placeholder="Student Name"
+                                  value={propertyName}
+                                  onChange={(e: any) =>
+                                    setPropertyName(e.target.value)
+                                  }
+                                />
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-1 px-6 text-left">
+                            <div className="flex items-center">
+                              <span>
+                                <FormOption
+                                  placeholder="String"
+                                  options={PrimitiveTypes}
+                                  value={propertyType}
+                                  onChange={(e: any) =>
+                                    setPropertyType(e.target.value)
+                                  }
+                                />
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-1 px-6 text-center items-center justify-center h-full">
+                            <div className="flex items-center justify-items-center justify-center space-x-2">
+                              <FaCheck
+                              size="25"
+                              onClick={() => {
+                                addProperty();
+                              }}
+                            />
+                              <MdDelete
+                                size="25"
+                                className=""
+                                onClick={() => {
+                                  propertyList.splice(index, 1);
+                                  setPropertyList([...propertyList]);
+                                  toast.success("Property Deleted!");
+                                }}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    )}
                     {propertyList.length === 0 && (
                       <tr className="text-base font-semibold">
                         <span className="ml-4 text-gray-500">
@@ -229,4 +260,4 @@ function EditNodeMetadata({
   );
 }
 
-export default EditNodeMetadata;
+export default UpsertNodeMetadata;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Metadata, Repository, Property } from "../services/repository";
+import { NodeMetadata, Repository, Property } from "../services/repository";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import {
@@ -16,7 +16,7 @@ const defaultProperties: Property[] = [new Property("Id", "ID")];
 
 type EditNodeMetadataProps = {
   index: number;
-  nodemetadata: Metadata;
+  nodemetadata: NodeMetadata;
   callbackMetadata: any;
 };
 
@@ -52,24 +52,24 @@ function EditNodeMetadata({
     toast.success("Property Added!");
   };
   const saveChanges = () => {
-    const md: Metadata = new Metadata(nodeName, propertyList);
+    const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
     callbackMetadata(md,index);
   };
   const createMetadata = () => {
-    const md: Metadata = new Metadata(nodeName, propertyList);
+    const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
     console.log("Metadata", md);
 
     const nodeMetadatas = window.localStorage.getItem("nodemetadatas");
 
     if (nodeMetadatas != null) {
-      const nodeMetadataObjects: Metadata[] = JSON.parse(nodeMetadatas);
+      const nodeMetadataObjects: NodeMetadata[] = JSON.parse(nodeMetadatas);
       nodeMetadataObjects.push(md);
       window.localStorage.setItem(
         "nodemetadatas",
         JSON.stringify(nodeMetadataObjects)
       );
     } else {
-      const nodeMetadataObjects: Metadata[] = [md];
+      const nodeMetadataObjects: NodeMetadata[] = [md];
       window.localStorage.setItem(
         "nodemetadatas",
         JSON.stringify(nodeMetadataObjects)

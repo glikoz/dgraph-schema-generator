@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Metadata } from "../services/repository";
+import { NodeMetadata } from "../services/repository";
 import { MdDelete, MdEdit } from "react-icons/md";
 import EditNodeMetadata from "./EditNodeMetadata";
 import { toast } from "react-toastify";
 import { Title, Subtitle, TitleH, FormButton } from "./UiComponents";
 
 function ListNodes() {
-  const [nodeMetadatas, setNodeMetadatas] = useState([] as Metadata[]);
+  const [nodeMetadatas, setNodeMetadatas] = useState([] as NodeMetadata[]);
   const [showEdit, setShowEdit] = useState([] as boolean[]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function ListNodes() {
   const getNodeMetadatas = () => {
     const nodeMetadatasJson = window.localStorage.getItem("nodemetadatas");
     if (nodeMetadatasJson != null) {
-      const nodeMetadataObjects: Metadata[] = JSON.parse(nodeMetadatasJson);
+      const nodeMetadataObjects: NodeMetadata[] = JSON.parse(nodeMetadatasJson);
       setNodeMetadatas(nodeMetadataObjects);
       const showEditList: boolean[] = new Array(
         nodeMetadataObjects.length
@@ -25,7 +25,7 @@ function ListNodes() {
     }
   };
 
-  const updateNode = (nodeMetadata: Metadata, index: number) => {
+  const updateNode = (nodeMetadata: NodeMetadata, index: number) => {
     nodeMetadatas[index] = nodeMetadata;
     setNodeMetadatas([...nodeMetadatas]);
     window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));

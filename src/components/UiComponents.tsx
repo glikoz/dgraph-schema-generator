@@ -1,3 +1,4 @@
+import { NodeMetadata } from "../services/repository";
 type TextProps = {
   text: string;
 };
@@ -29,7 +30,12 @@ export const Subtitle = ({ text }: TextProps) => (
   <h1 className="text-xl text-gray-300">{text}</h1>
 );
 
-export const FormText = ({ label, placeholder, value, onChange }: FormProps) => (
+export const FormText = ({
+  label,
+  placeholder,
+  value,
+  onChange,
+}: FormProps) => (
   <div className="flex  flex-col items-start my-4">
     <label className="block text-gray-700 font-bold text-base mb-2">
       {label}
@@ -45,7 +51,12 @@ export const FormText = ({ label, placeholder, value, onChange }: FormProps) => 
   </div>
 );
 
-export const FormOption = ({ label, options, value, onChange }: SelectProps) => (
+export const FormOption = ({
+  label,
+  options,
+  value,
+  onChange,
+}: SelectProps) => (
   <div className="flex  flex-col items-start my-4">
     {label && (
       <label className="block text-gray-700 font-bold text-base mb-2">

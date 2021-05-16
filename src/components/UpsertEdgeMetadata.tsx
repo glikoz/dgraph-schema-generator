@@ -6,6 +6,8 @@ import {
   Property,
 } from "../services/repository";
 import { MdDelete } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
+
 import { toast } from "react-toastify";
 import {
   Title,
@@ -33,30 +35,37 @@ function UpsertEdgeMetadata({
   edgemetadata,
   callbackMetadata,
 }: EditNodeMetadataProps) {
+  const [nodeMetadatas, setNodeMetadatas] = useState([] as NodeMetadata[]);
   const [edgeName, setEdgeName] = useState("");
   const [edgeInverseName, setEdgeInverseName] = useState("");
   const [fromNoteMetadatas, setFromNodeMetadatas] = useState(
     [] as NodeMetadata[]
   );
   const [toNoteMetadatas, setToNodeMetadatas] = useState([] as NodeMetadata[]);
+  const [newFrom, setNewFrom] = useState<NodeMetadata | null>(null);
+  const [newTo, setNewTo] = useState<NodeMetadata | null>(null);
+  const [selectedNodeName, setSelectedNodeName] = useState("");
 
   useEffect(() => {
+    getNodeMetadatas();
     setEdgeName(edgemetadata.Name);
     setEdgeInverseName(edgemetadata.InverseName);
-
     setFromNodeMetadatas(edgemetadata.From);
     setToNodeMetadatas(edgemetadata.To);
   }, []);
 
-  const addProperty = () => {
-    // const prop: Property = {
-    //   Type: propertyType,
-    //   Name: propertyName,
-    // };
-    // setPropertyList((arr) => [...arr, prop]);
-    // setPropertyName("");
-    // setPropertyType("String");
-    toast.success("Property Added!");
+  const getNodeMetadatas = () => {
+    const nodeMetadatasJson = window.localStorage.getItem("nodemetadatas");
+    if (nodeMetadatasJson) {
+      const nodeMetadatasObjects = JSON.parse(nodeMetadatasJson);
+      setNodeMetadatas(nodeMetadatasObjects);
+    }
+  };
+
+  const connectEmptyNode = (isFrom: boolean) => {
+    const nm: NodeMetadata = new NodeMetadata("", undefined);
+    isFrom ? setNewFrom(nm) : setNewTo(nm);
+    toast.success("New Empty Node Added!");
   };
 
   const saveChanges = () => {
@@ -132,7 +141,7 @@ function UpsertEdgeMetadata({
               text="Connect Node"
               color="bg-pink-400"
               onClick={() => {
-                console.log("");
+                connectEmptyNode(true);
               }}
             />
           </div>
@@ -156,17 +165,14 @@ function UpsertEdgeMetadata({
                         <td className="py-1 px-6 text-left">
                           <div className="flex items-center">
                             <span className="font-medium text-lg -mt-1">
-                              {/* <FormText
-                                value={propertyList[index].Name}
+                              <FormOption
+                                options={nodeMetadatas.map((a) => a.Name)}
+                                value={fromNoteMetadatas[index].Name}
                                 onChange={(a: any) => {
-                                  let prop: Property = new Property(
-                                    a.target.value,
-                                    e.Type
-                                  );
-                                  propertyList[index] = prop;
-                                  setPropertyList([...propertyList]);
+                                  fromNoteMetadatas.push(a.target.value);
+                                  setFromNodeMetadatas([...fromNoteMetadatas]);
                                 }}
-                              /> */}
+                              />
                             </span>
                           </div>
                         </td>
@@ -193,6 +199,55 @@ function UpsertEdgeMetadata({
                         <span className="ml-4 text-gray-500">
                           No properties yet
                         </span>
+                      </tr>
+                    )}
+                    {newFrom && (
+                      <tr
+                        className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
+                        key={index}
+                      >
+                        <td className="py-1 px-6 text-left">
+                          <div className="flex items-center">
+                            <span className="font-medium text-lg -mt-1">
+                              <FormOption
+                                options={nodeMetadatas.map((a) => a.Name)}
+                                value={selectedNodeName}
+                                onChange={(a: any) => {
+                                  setSelectedNodeName(a.target.value);
+                                }}
+                              />
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-1 px-6 text-left">
+                          <div className="flex items-center">
+                            <span></span>
+                          </div>
+                        </td>
+                        <td className="py-1 px-6 text-center items-center justify-center h-full">
+                          <div className="flex items-center justify-items-center justify-center space-x-2">
+                            <FaCheck
+                              size="25"
+                              onClick={() => {
+                                const nm: NodeMetadata | undefined =
+                                  nodeMetadatas.find(
+                                    (x) => x.Name === selectedNodeName
+                                  );
+                                if (nm) {
+                                  fromNoteMetadatas.push(nm);
+                                  setFromNodeMetadatas([...fromNoteMetadatas]);
+                                  toast.success("From Added!");
+                                } else toast.error("Error!");
+                              }}
+                            />
+                            <MdDelete
+                              size="25"
+                              onClick={() => {
+                                toast.success("Property Deleted!");
+                              }}
+                            />
+                          </div>
+                        </td>
                       </tr>
                     )}
                   </tbody>

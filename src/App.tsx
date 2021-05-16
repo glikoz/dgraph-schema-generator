@@ -22,7 +22,7 @@ function App() {
                 <Route path="/thirdpage" component={() => <ThirdPage />} />
                 <Route path="/listedges" component={() => <ListEdges />} />
                 <Route path="/listnodes" component={() => <ListNodes />} />
-                <Route path="/" component={() => <HomePage />} />
+                <Route path="/" component={() => <ListNodes />} />
               </Switch>
             </div>
           </div>

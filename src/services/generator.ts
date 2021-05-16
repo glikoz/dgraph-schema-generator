@@ -8,8 +8,8 @@ export class Generator{
      const nodes=rep.GetMetadatas();
 
      const typeDict=new Map();
-     edges.forEach(edge => {
+    //  edges.forEach(edge => {
          
-     });
+    //  });
  }   
 }

@@ -10,7 +10,6 @@ import {
   FormOption,
   FormButton,
 } from "./UiComponents";
-import ReactMarkdown from "react-markdown";
 
 const PrimitiveTypes: string[] = ["ID", "String", "Boolean", "Int", "Float"];
 const defaultProperties: Property[] = [new Property("Id", "ID")];

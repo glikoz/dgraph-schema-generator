@@ -1,14 +1,14 @@
 import { specialChars } from "@testing-library/user-event";
 import { Guid } from "guid-typescript";
 export class Repository {
-    UpsertMetadata(md: NodeMetadata) {
+    UpsertNodeMetadata(md: NodeMetadata) {
         window.localStorage.setItem("metadata:" + md.Id, JSON.stringify(md));
     }
 
     UpsertEdgeMetadata() { }
 
 
-    GetMetadatas() {
+    GetNodeMetadatas() {
 
     }
     GetEdgeMetadatas(): EdgeMetadata[] {

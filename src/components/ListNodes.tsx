@@ -8,6 +8,7 @@ import { Title, Subtitle, TitleH, FormButton } from "./UiComponents";
 function ListNodes() {
   const [nodeMetadatas, setNodeMetadatas] = useState([] as NodeMetadata[]);
   const [showEdit, setShowEdit] = useState([] as boolean[]);
+  const [newNode, setNewNode] = useState<NodeMetadata | null>(null);
 
   useEffect(() => {
     getNodeMetadatas();
@@ -25,6 +26,20 @@ function ListNodes() {
     }
   };
 
+  const createEmptyNodeMetadata = () => {
+    let newNodeMetadata: NodeMetadata = new NodeMetadata("", undefined);
+    setNewNode(newNodeMetadata);
+  };
+
+  const saveNewNode = (nm: NodeMetadata, index: number) => {
+    setNewNode(null);
+    nodeMetadatas.push(nm);
+    setNodeMetadatas([...nodeMetadatas]);
+    window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));
+    const showEditList: boolean[] = new Array(nodeMetadatas.length).fill(false);
+    setShowEdit(showEditList);
+  };
+
   const updateNode = (nodeMetadata: NodeMetadata, index: number) => {
     nodeMetadatas[index] = nodeMetadata;
     setNodeMetadatas([...nodeMetadatas]);
@@ -32,16 +47,20 @@ function ListNodes() {
   };
 
   return (
-    <div
-      className=" mx-20 fluid  md:text-3xl px-20 py-8 rounded-lg w-full"
-      style={{ backgroundColor: "white" }}
-    >
+    <div className=" mx-20 fluid  md:text-3xl px-20 py-8 rounded-lg w-full bg-white">
       <div className="flex flex-col items-start space-y-4 text-gray-800">
         <Title text="List Node Metadatas" />
         <Subtitle text="You can list all node metadatas and in here and edit their properties" />
       </div>
       <div className="flex flex-col mt-8 items-start">
-        <TitleH text="Properties" />
+        <div className="flex items-center w-full justify-between items-between">
+          <TitleH text="Node Metadatas" />
+          <FormButton
+            text="Add Node"
+            color="bg-indigo-400"
+            onClick={() => createEmptyNodeMetadata()}
+          />
+        </div>
         <div className="flex flex-col ml-2 mt-4">
           <div className="w-full">
             <div className="bg-white shadow-md rounded my-6">
@@ -103,6 +122,42 @@ function ListNodes() {
                       )}
                     </>
                   ))}
+                  {newNode && (
+                    <>
+                      <tr
+                        className="border-b  h-64 border-gray-200 bg-gray-50 hover:bg-gray-100"
+                        key={"new"}
+                      >
+                        <td className="py-1 px-6 text-left h-12">
+                          <div className="flex items-center">
+                            <span className="font-medium text-lg -mt-1">
+                              New NodeMetadata Panel
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-1 px-6 text-center items-center justify-center h-full">
+                          <div className="flex items-center justify-items-center justify-center space-x-2">
+                            <MdDelete
+                              size="25"
+                              onClick={() => {
+                                setNewNode(null);
+                                toast.success("New NodeMetadata Deleted!");
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                      <div className="flex">
+                        <EditNodeMetadata
+                          nodemetadata={new NodeMetadata("", undefined)}
+                          index={nodeMetadatas.length}
+                          callbackMetadata={(e) =>
+                            saveNewNode(e, nodeMetadatas.length)
+                          }
+                        />
+                      </div>
+                    </>
+                  )}
                   {nodeMetadatas.length === 0 && (
                     <tr className="text-base font-semibold">
                       <span className="ml-4 text-gray-500">
@@ -119,5 +174,4 @@ function ListNodes() {
     </div>
   );
 }
-
 export default ListNodes;

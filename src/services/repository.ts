@@ -18,10 +18,21 @@ export class Repository {
 
 // Directed, DirectedBy
 export class EdgeMetadata {
+    Id: Guid;
     From: NodeMetadata[] = [];
     To: NodeMetadata[] = [];
     Name: string = "";
     InverseName: string = "";
+
+    constructor(name: string, inverseName:string , from?: NodeMetadata[], to?: NodeMetadata[]) {
+        this.Id = Guid.create();
+        this.Name = name;
+        this.InverseName = inverseName;
+        if (from)
+            this.From = from;
+        if(to)
+            this.To = to;
+    }
 }
 
 
@@ -30,10 +41,11 @@ export class NodeMetadata {
     Name: string = "";
     Properties: Property[] = [];
 
-    constructor(name: string, properties: Property[]) {
+    constructor(name: string, properties?: Property[]) {
         this.Id = Guid.create();
         this.Name = name;
-        this.Properties = properties;
+        if(properties)
+            this.Properties = properties;
     }
 }
 

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NodeMetadata, Repository, Property } from "../services/repository";
+import {
+  EdgeMetadata,
+  NodeMetadata,
+  Repository,
+  Property,
+} from "../services/repository";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import {
@@ -16,74 +21,87 @@ const defaultProperties: Property[] = [new Property("Id", "ID")];
 
 type EditNodeMetadataProps = {
   index: number;
-  nodemetadata: NodeMetadata;
+  edgemetadata: EdgeMetadata;
   callbackMetadata: any;
 };
-
-function EditNodeMetadata({
+// From: EdgeMetadata[] = [];
+//   To: EdgeMetadata[] = [];
+//   Name: string = "";
+//   InverseName: string = "";
+function UpsertEdgeMetadata({
   index,
-  nodemetadata,
+  edgemetadata,
   callbackMetadata,
 }: EditNodeMetadataProps) {
-  const [nodeName, setNodeName] = useState("");
-  const [propertyName, setPropertyName] = useState("");
-  const [propertyType, setPropertyType] = useState("String");
-  const [propertyList, setPropertyList] = useState(
-    defaultProperties as Property[]
+  const [edgeName, setEdgeName] = useState("");
+  const [edgeInverseName, setEdgeInverseName] = useState("");
+  const [fromNoteMetadatas, setFromNodeMetadatas] = useState(
+    [] as NodeMetadata[]
   );
-  const [showNewProperty, setShowNewProperty] = useState(false);
+  const [toNoteMetadatas, setToNodeMetadatas] = useState([] as NodeMetadata[]);
 
   useEffect(() => {
-    setNodeName(nodemetadata.Name);
-    setPropertyList(nodemetadata.Properties);
-    // let rep: Repository = new Repository();
-    // rep.UpsertMetadata(new Metadata());
+    setEdgeName(edgemetadata.Name);
+    setEdgeInverseName(edgemetadata.InverseName);
+
+    setFromNodeMetadatas(edgemetadata.From);
+    setToNodeMetadatas(edgemetadata.To);
   }, []);
 
   const addProperty = () => {
-    const prop: Property = {
-      Type: propertyType,
-      Name: propertyName,
-    };
-    setPropertyList((arr) => [...arr, prop]);
-    setPropertyName("");
-    setPropertyType("String");
-    console.log(propertyList);
+    // const prop: Property = {
+    //   Type: propertyType,
+    //   Name: propertyName,
+    // };
+    // setPropertyList((arr) => [...arr, prop]);
+    // setPropertyName("");
+    // setPropertyType("String");
     toast.success("Property Added!");
   };
+
   const saveChanges = () => {
-    const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
-    callbackMetadata(md, index);
+    const em: EdgeMetadata = new EdgeMetadata(
+      edgeName,
+      edgeInverseName,
+      fromNoteMetadatas,
+      toNoteMetadatas
+    );
+    callbackMetadata(em, index);
   };
-  const createMetadata = () => {
-    const md: NodeMetadata = new NodeMetadata(nodeName, propertyList);
-    console.log("Metadata", md);
+  const createEdgeMetadata = () => {
+    const em: EdgeMetadata = new EdgeMetadata(
+      edgeName,
+      edgeInverseName,
+      fromNoteMetadatas,
+      toNoteMetadatas
+    );
+    console.log("Metadata", em);
 
-    const nodeMetadatas = window.localStorage.getItem("nodemetadatas");
+    const edgeMetadatas = window.localStorage.getItem("edgemetadatas");
 
-    if (nodeMetadatas != null) {
-      const nodeMetadataObjects: NodeMetadata[] = JSON.parse(nodeMetadatas);
-      nodeMetadataObjects.push(md);
+    if (edgeMetadatas != null) {
+      const edgeMetadataObjects: EdgeMetadata[] = JSON.parse(edgeMetadatas);
+      edgeMetadataObjects.push(em);
       window.localStorage.setItem(
-        "nodemetadatas",
-        JSON.stringify(nodeMetadataObjects)
+        "edgemetadatas",
+        JSON.stringify(edgeMetadataObjects)
       );
     } else {
-      const nodeMetadataObjects: NodeMetadata[] = [md];
+      const edgeMetadataObjects: EdgeMetadata[] = [em];
       window.localStorage.setItem(
-        "nodemetadatas",
-        JSON.stringify(nodeMetadataObjects)
+        "edgemetadatas",
+        JSON.stringify(edgeMetadataObjects)
       );
     }
-    toast.success("Nodemetadata Created!");
+    toast.success("EdgeMetadata Created!");
     clearForms();
   };
 
   const clearForms = () => {
-    setNodeName("");
-    setPropertyName("");
-    setPropertyType("");
-    setPropertyList(defaultProperties);
+    setEdgeName("");
+    setEdgeInverseName("");
+    setFromNodeMetadatas([]);
+    setToNodeMetadatas([]);
   };
 
   return (
@@ -91,52 +109,33 @@ function EditNodeMetadata({
       className=" md:text-3xl mx-8 py-4 rounded-lg w-full"
       style={{ backgroundColor: "white" }}
     >
-      <FormText
-        label="Name:"
-        placeholder="Student"
-        value={nodeName}
-        onChange={(e: any) => setNodeName(e.target.value)}
-      />
-      <div className="flex flex-col items-start rounded p-4 border">
+      <div className="flex space-x-8">
+        <FormText
+          label="Edge Name:"
+          placeholder="Teaches"
+          value={edgeName}
+          onChange={(e: any) => setEdgeName(e.target.value)}
+        />
+        <FormText
+          label="Inverse Edge Name:"
+          placeholder="Teached By"
+          value={edgeInverseName}
+          onChange={(e: any) => setEdgeInverseName(e.target.value)}
+        />
+      </div>
+      <div className="flex flex-col items-start rounded px-4 border">
         <div className="flex" style={{ alignItems: "flex-end" }}></div>
-        <div className="flex flex-col mt-8 items-start">
+        <div className="flex flex-col mt-2 items-start w-full">
           <div className="flex items-center justify-between w-full">
-            <TitleH text="Properties" />
+            <TitleH text="From" />
             <FormButton
-              text="Add New Property"
+              text="Connect Node"
               color="bg-pink-400"
               onClick={() => {
-                setShowNewProperty(!showNewProperty);
+                console.log("");
               }}
             />
           </div>
-          {showNewProperty && (
-            <div className="flex flex-col items-start my-12 border rounded p-8">
-              <TitleH text="Add Property" />
-              <div className="flex space-x-12">
-                <FormText
-                  label="Property Name:"
-                  placeholder="Student Name"
-                  value={propertyName}
-                  onChange={(e: any) => setPropertyName(e.target.value)}
-                />
-                <FormOption
-                  label="Property Type"
-                  placeholder="String"
-                  options={PrimitiveTypes}
-                  value={propertyType}
-                  onChange={(e: any) => setPropertyType(e.target.value)}
-                />
-                <div className="flex" style={{ alignItems: "flex-end" }}>
-                  <FormButton
-                    text="Add Property"
-                    color="bg-pink-400"
-                    onClick={() => addProperty()}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
           <div className="flex flex-col ml-2 mt-4">
             <div className="w-full">
               <div className="bg-white shadow-md rounded my-6">
@@ -149,7 +148,7 @@ function EditNodeMetadata({
                     </tr>
                   </thead>
                   <tbody className="text-gray-600 text-sm font-light">
-                    {propertyList.map((e: any, index: number) => (
+                    {fromNoteMetadatas.map((e: any, index: number) => (
                       <tr
                         className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
                         key={index}
@@ -157,7 +156,7 @@ function EditNodeMetadata({
                         <td className="py-1 px-6 text-left">
                           <div className="flex items-center">
                             <span className="font-medium text-lg -mt-1">
-                              <FormText
+                              {/* <FormText
                                 value={propertyList[index].Name}
                                 onChange={(a: any) => {
                                   let prop: Property = new Property(
@@ -167,26 +166,13 @@ function EditNodeMetadata({
                                   propertyList[index] = prop;
                                   setPropertyList([...propertyList]);
                                 }}
-                              />
+                              /> */}
                             </span>
                           </div>
                         </td>
                         <td className="py-1 px-6 text-left">
                           <div className="flex items-center">
-                            <span>
-                              <FormOption
-                                options={PrimitiveTypes}
-                                value={propertyList[index].Type}
-                                onChange={(a: any) => {
-                                  let prop: Property = new Property(
-                                    e.Name,
-                                    a.target.value
-                                  );
-                                  propertyList[index] = prop;
-                                  setPropertyList([...propertyList]);
-                                }}
-                              />
-                            </span>
+                            <span></span>
                           </div>
                         </td>
                         <td className="py-1 px-6 text-center items-center justify-center h-full">
@@ -195,8 +181,6 @@ function EditNodeMetadata({
                               size="25"
                               className=""
                               onClick={() => {
-                                propertyList.splice(index, 1);
-                                setPropertyList([...propertyList]);
                                 toast.success("Property Deleted!");
                               }}
                             />
@@ -204,7 +188,7 @@ function EditNodeMetadata({
                         </td>
                       </tr>
                     ))}
-                    {propertyList.length === 0 && (
+                    {fromNoteMetadatas.length === 0 && (
                       <tr className="text-base font-semibold">
                         <span className="ml-4 text-gray-500">
                           No properties yet
@@ -229,4 +213,4 @@ function EditNodeMetadata({
   );
 }
 
-export default EditNodeMetadata;
+export default UpsertEdgeMetadata;

@@ -38,7 +38,7 @@ function NavigationDrawer() {
           Nodes
         </button>
         <button
-          onClick={() => history.push("/")}
+          onClick={() => history.push("/listedges")}
           className="text-lg ml-4 text-indigo-500 font-semibold flex"
         >
           <FaList size="25" className="mr-2" />

@@ -1,6 +1,7 @@
 import "./App.css";
 import HomePage from "./components/HomePage";
 import ListNodes from "./components/ListNodes";
+import ListEdges from "./components/ListEdges";
 import ThirdPage from "./components/ThirdPage";
 import Menu from "./components/Menu";
 import NavigationDrawer from "./components/NavigationDrawer";
@@ -19,6 +20,7 @@ function App() {
             <div className="flex w-full" style={{ backgroundColor: "#EEF2F6" }}>
               <Switch>
                 <Route path="/thirdpage" component={() => <ThirdPage />} />
+                <Route path="/listedges" component={() => <ListEdges />} />
                 <Route path="/listnodes" component={() => <ListNodes />} />
                 <Route path="/" component={() => <HomePage />} />
               </Switch>

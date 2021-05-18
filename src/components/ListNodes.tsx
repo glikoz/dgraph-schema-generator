@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NodeMetadata } from "../services/repository";
+import { NodeMetadata, Repository } from "../services/repository";
 import { MdDelete, MdEdit } from "react-icons/md";
 import UpsertNodeMetadata from "./UpsertNodeMetadata";
 import { toast } from "react-toastify";
@@ -15,15 +15,9 @@ function ListNodes() {
   }, []);
 
   const getNodeMetadatas = () => {
-    const nodeMetadatasJson = window.localStorage.getItem("nodemetadatas");
-    if (nodeMetadatasJson != null) {
-      const nodeMetadataObjects: NodeMetadata[] = JSON.parse(nodeMetadatasJson);
-      setNodeMetadatas(nodeMetadataObjects);
-      const showEditList: boolean[] = new Array(
-        nodeMetadataObjects.length
-      ).fill(false);
-      setShowEdit(showEditList);
-    }
+    const nodeMetadatasObjects = new Repository().GetNodeMetadatas();
+    setNodeMetadatas(nodeMetadatasObjects);
+    setShowEdit(new Array(nodeMetadatasObjects.length).fill(false));
   };
 
   const createEmptyNodeMetadata = () => {
@@ -33,18 +27,18 @@ function ListNodes() {
 
   const saveNewNode = (nm: NodeMetadata, index: number) => {
     setNewNode(null);
-    nodeMetadatas.push(nm);
-    setNodeMetadatas([...nodeMetadatas]);
-    window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));
-    const showEditList: boolean[] = new Array(nodeMetadatas.length).fill(false);
-    setShowEdit(showEditList);
+    const nodeMetadataObjects: NodeMetadata[] = 
+      new Repository().UpsertNodeMetadata(nm);
+
+    setNodeMetadatas([...nodeMetadataObjects]);
+    setShowEdit(new Array(nodeMetadataObjects.length).fill(false));
   };
 
-  const updateNode = (nodeMetadata: NodeMetadata, index: number) => {
-    nodeMetadatas[index] = nodeMetadata;
-    setNodeMetadatas([...nodeMetadatas]);
-    console.log("updateNode", nodeMetadatas);
-    window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));
+  const updateNode = (nm: NodeMetadata, index: number) => {
+    const nodeMetadataObjects: NodeMetadata[] =
+      new Repository().UpsertNodeMetadata(nm, index);
+
+    setNodeMetadatas([...nodeMetadataObjects]);
   };
 
   return (

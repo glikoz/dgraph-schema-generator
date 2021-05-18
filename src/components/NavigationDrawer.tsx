@@ -11,8 +11,11 @@ function NavigationDrawer() {
 
   return (
     <div
-      className="flex-col items-start justify-start pb-2 lg:pb-4 pt-8 pl-2 rounded-xl mb-20"
-      style={{ backgroundColor: "#ffffff", width: "23%" }}
+      className="flex-col max-h-96	items-start justify-start pb-2 lg:pb-4 pt-8 pl-2 rounded-xl mb-20"
+      style={{
+        backgroundColor: "#ffffff",
+        width: "23%",
+      }}
     >
       <div className="flex ml-4">
         <button
@@ -44,21 +47,6 @@ function NavigationDrawer() {
           <FaList size="25" className="mr-2" />
           Edges
         </button>
-        <button
-          onClick={() => history.push("/")}
-          className="text-lg ml-4 text-indigo-500 font-semibold flex"
-        >
-          <GoPlus size="25" className="mr-2" />
-          Create Nodes
-        </button>
-        <button
-          onClick={() => history.push("/")}
-          className="text-lg ml-4 text-indigo-500 font-semibold flex"
-        >
-          <GoPlus size="25" className="mr-2" />
-          Create Edges
-        </button>
-
         <button
           onClick={() => history.push("/")}
           className="text-lg ml-4 text-indigo-500 font-semibold flex"

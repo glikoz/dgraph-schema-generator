@@ -1,68 +1,91 @@
 import { specialChars } from "@testing-library/user-event";
 import { Guid } from "guid-typescript";
 export class Repository {
-    UpsertMetadata(md: NodeMetadata) {
-        window.localStorage.setItem("metadata:" + md.Id, JSON.stringify(md));
-    }
+  UpsertNodeMetadata(nm: NodeMetadata, index?: number): NodeMetadata[] {
+    // get json node metadatas, if not defined create empty array
+    let nodeMetadatas: NodeMetadata[] = this.GetNodeMetadatas();
 
-    UpsertEdgeMetadata() { }
+    // if index not null =>  update node | else create node
+    index ? (nodeMetadatas[index] = nm) : nodeMetadatas.push(nm);
 
+    // set local storage
+    window.localStorage.setItem("nodemetadatas", JSON.stringify(nodeMetadatas));
 
-    GetMetadatas() {
+    return nodeMetadatas;
+  }
 
-    }
-    GetEdgeMetadatas(): EdgeMetadata[] {
-        return [];
-    }
+  UpsertEdgeMetadata(em: EdgeMetadata, index?: number): EdgeMetadata[] {
+    let edgeMetadatas: EdgeMetadata[] = this.GetEdgeMetadatas();
+
+    // if index not null =>  update edge | else create edge
+    index ? (edgeMetadatas[index] = em) : edgeMetadatas.push(em);
+
+    // set local storage
+    window.localStorage.setItem("edgemetadatas", JSON.stringify(edgeMetadatas));
+
+    return edgeMetadatas;
+  }
+
+  GetNodeMetadatas(): NodeMetadata[] {
+    return window.localStorage.getItem("nodemetadatas")
+      ? JSON.parse(window.localStorage.getItem("nodemetadatas")!)
+      : [];
+  }
+
+  GetEdgeMetadatas(): EdgeMetadata[] {
+    return window.localStorage.getItem("edgemetadatas")
+      ? JSON.parse(window.localStorage.getItem("edgemetadatas")!)
+      : [];
+  }
 }
 
-// Directed, DirectedBy
 export class EdgeMetadata {
-    Id: Guid;
-    From: NodeMetadata[] = [];
-    To: NodeMetadata[] = [];
-    Name: string = "";
-    InverseName: string = "";
+  Id: Guid;
+  From: NodeMetadata[] = [];
+  To: NodeMetadata[] = [];
+  Name: string = "";
+  InverseName: string = "";
 
-    constructor(name: string, inverseName:string , from?: NodeMetadata[], to?: NodeMetadata[]) {
-        this.Id = Guid.create();
-        this.Name = name;
-        this.InverseName = inverseName;
-        if (from)
-            this.From = from;
-        if(to)
-            this.To = to;
-    }
+  constructor(
+    name: string,
+    inverseName: string,
+    from?: NodeMetadata[],
+    to?: NodeMetadata[]
+  ) {
+    this.Id = Guid.create();
+    this.Name = name;
+    this.InverseName = inverseName;
+    if (from) this.From = from;
+    if (to) this.To = to;
+  }
 }
-
 
 export class NodeMetadata {
-    Id: Guid;
-    Name: string = "";
-    Properties: Property[] = [];
+  Id: Guid;
+  Name: string = "";
+  Properties: Property[] = [];
 
-    constructor(name: string, properties?: Property[]) {
-        this.Id = Guid.create();
-        this.Name = name;
-        if(properties)
-            this.Properties = properties;
-    }
+  constructor(name: string, properties?: Property[]) {
+    this.Id = Guid.create();
+    this.Name = name;
+    if (properties) this.Properties = properties;
+  }
 }
 
 export class Property {
-    Name: string = "";
-    Type: string = "ID";
+  Name: string = "";
+  Type: string = "ID";
 
-    constructor(name: string, type: string) {
-        this.Name = name;
-        this.Type = type;
-    }
+  constructor(name: string, type: string) {
+    this.Name = name;
+    this.Type = type;
+  }
 }
 
 export type Scalars = {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
 };

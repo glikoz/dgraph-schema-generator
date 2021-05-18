@@ -49,6 +49,7 @@ function UpsertNodeMetadata({
     setPropertyList((arr) => [...arr, prop]);
     setPropertyName("");
     setPropertyType("String");
+    setNewProperty(false);
     console.log(propertyList);
     toast.success("Property Added!");
   };

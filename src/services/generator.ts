@@ -5,7 +5,7 @@ export class Generator{
  constructor(rep:Repository) {
      
      const edges=rep.GetEdgeMetadatas();
-     const nodes=rep.GetMetadatas();
+     const nodes=rep.GetNodeMetadatas();
 
      const typeDict=new Map();
     //  edges.forEach(edge => {

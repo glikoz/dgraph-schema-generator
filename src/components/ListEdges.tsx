@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { EdgeMetadata } from "../services/repository";
+import { EdgeMetadata, Repository } from "../services/repository";
 import { MdDelete, MdEdit } from "react-icons/md";
 import UpsertEdgeMetadata from "./UpsertEdgeMetadata";
 import { toast } from "react-toastify";
@@ -15,15 +15,9 @@ function ListEdges() {
   }, []);
 
   const getEdgeMetadatas = () => {
-    const edgeMetadatasJson = window.localStorage.getItem("edgemetadatas");
-    if (edgeMetadatasJson != null) {
-      const edgeMetadataObjects: EdgeMetadata[] = JSON.parse(edgeMetadatasJson);
-      setEdgeMetadatas(edgeMetadataObjects);
-      const showEditList: boolean[] = new Array(
-        edgeMetadataObjects.length
-      ).fill(false);
-      setShowEdit(showEditList);
-    }
+    const edgeMetadataObjects = new Repository().GetEdgeMetadatas();
+    setEdgeMetadatas(edgeMetadataObjects);
+    setShowEdit(new Array(edgeMetadataObjects.length).fill(false));
   };
 
   const upsertEdge = (em: EdgeMetadata, index: number) => {
@@ -34,6 +28,7 @@ function ListEdges() {
   };
 
   const saveNewEdge = (em: EdgeMetadata, index: number) => {};
+
   return (
     <div
       className=" mx-20 fluid  md:text-3xl px-20 py-8 rounded-lg w-full"

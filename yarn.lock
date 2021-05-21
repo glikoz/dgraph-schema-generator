@@ -10534,6 +10534,11 @@
   "resolved" "https://registry.npmjs.org/shellwords/-/shellwords-0.1.1.tgz"
   "version" "0.1.1"
 
+"short-unique-id@^4.3.3":
+  "integrity" "sha512-wwo4qogI5t3So4EfNB2VtlgKTVrgImFQiKZKUHCi9lFcwR7CT/uWGWNzsTMSnS1Ryuj1MWfjo5jswsJ4BheTIg=="
+  "resolved" "https://registry.npmjs.org/short-unique-id/-/short-unique-id-4.3.3.tgz"
+  "version" "4.3.3"
+
 "side-channel@^1.0.4":
   "integrity" "sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw=="
   "resolved" "https://registry.npmjs.org/side-channel/-/side-channel-1.0.4.tgz"

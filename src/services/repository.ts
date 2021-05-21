@@ -45,7 +45,8 @@ export class EdgeMetadata {
   To: NodeMetadata[] = [];
   Name: string = "";
   InverseName: string = "";
-
+  FromCount:string="1";
+  ToCount:string="1";  
   constructor(
     name: string,
     inverseName: string,

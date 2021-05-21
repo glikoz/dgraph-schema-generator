@@ -100,7 +100,7 @@ function ListEdges() {
                         </td>
                       </tr>
                       {showEdit[index] && (
-                        <div className="flex">
+                        <div className="flex w-full">
                           <UpsertEdgeMetadata
                             edgemetadata={e}
                             index={index}

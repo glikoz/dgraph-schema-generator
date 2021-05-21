@@ -6,7 +6,7 @@ import {
   Property,
 } from "../services/repository";
 import { MdDelete } from "react-icons/md";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaLongArrowAltDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
   Title,
@@ -37,6 +37,7 @@ function UpsertEdgeMetadata({
   const [toNodeMetadatas, setToNodeMetadatas] = useState([] as NodeMetadata[]);
   const [fromCount, setFromCount] = useState("1");
   const [toCount, setToCount] = useState("1");
+  const [relationType, setRelationType] = useState("Please Select");
 
   useEffect(() => {
     getNodeMetadatas();
@@ -44,6 +45,13 @@ function UpsertEdgeMetadata({
     setEdgeInverseName(edgemetadata.InverseName);
     setFromNodeMetadatas(edgemetadata.From);
     setToNodeMetadatas(edgemetadata.To);
+    setFromCount(edgemetadata.FromCount);
+    setToCount(edgemetadata.ToCount);
+    if (fromCount == "1" && toCount == "1") setRelationType("One To One");
+    else if (fromCount == "1" && toCount == "N") setRelationType("One To Many");
+    else if (fromCount == "N" && toCount == "N")
+      setRelationType("Many To Many");
+    else if (fromCount == "N" && toCount == "1") setRelationType("Many To One");
   }, []);
 
   const getNodeMetadatas = () => {
@@ -59,7 +67,9 @@ function UpsertEdgeMetadata({
       edgeName,
       edgeInverseName,
       fromNodeMetadatas,
-      toNodeMetadatas
+      toNodeMetadatas,
+      fromCount,
+      toCount
     );
     toast.success("Changes are saved!");
     callbackMetadata(em, index);
@@ -70,7 +80,9 @@ function UpsertEdgeMetadata({
       edgeName,
       edgeInverseName,
       fromNodeMetadatas,
-      toNodeMetadatas
+      toNodeMetadatas,
+      fromCount,
+      toCount
     );
     console.log("Metadata", em);
 
@@ -263,18 +275,68 @@ function UpsertEdgeMetadata({
           value={edgeInverseName}
           onChange={(e: any) => setEdgeInverseName(e.target.value)}
         />
-        <FormOption
-          options={["1","N"]}
-          value={fromCount}
-          onChange={(a: any) => {
-           setFromCount(a.event.value);
-           console.log(fromCount);
-          }}
-        />
       </div>
       <div className="flex flex-col items-start rounded px-4 border">
         <div className="flex" style={{ alignItems: "flex-end" }}></div>
         <EdgeConnections isFrom={true} nodeMetadataFromTo={fromNodeMetadatas} />
+        <div className="flex w-full justify-center items-center">
+          <div
+            className="bg-gray-300 w-full mt-8 mx-4"
+            style={{ height: "1px" }}
+          ></div>
+          <div className="flex items-center justify-center">
+            <FaLongArrowAltDown size="40" className="mt-4 text-gray-400" />
+          </div>
+          <div
+            className="bg-gray-300 w-full mt-8 mx-4"
+            style={{ height: "1px" }}
+          ></div>
+          <FormOption
+            label="Relation Type"
+            options={[
+              "One To One",
+              "One To Many",
+              "Many To One",
+              "Many To Many",
+            ]}
+            value={relationType}
+            onChange={(a: any) => {
+              setRelationType(a.target.value);
+
+              switch (a.target.value) {
+                case "One To Many":
+                  setFromCount("1");
+                  setToCount("N");
+                  break;
+                case "One To One":
+                  setFromCount("1");
+                  setToCount("1");
+                  break;
+                case "Many To Many":
+                  setFromCount("N");
+                  setToCount("N");
+                  break;
+                case "Many To One":
+                  setFromCount("N");
+                  setToCount("1");
+                  break;
+                default:
+                  break;
+              }
+            }}
+          />
+          <div
+            className="bg-gray-300 w-full mt-8 mx-4"
+            style={{ height: "1px" }}
+          ></div>
+          <div className="flex items-center justify-center">
+            <FaLongArrowAltDown size="40" className="mt-4 text-gray-400" />
+          </div>
+          <div
+            className="bg-gray-300 w-full mt-8 mx-4"
+            style={{ height: "1px" }}
+          ></div>
+        </div>
         <EdgeConnections isFrom={false} nodeMetadataFromTo={toNodeMetadatas} />
 
         <div className="flex justify-end">

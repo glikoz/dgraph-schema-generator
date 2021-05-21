@@ -45,19 +45,23 @@ export class EdgeMetadata {
   To: NodeMetadata[] = [];
   Name: string = "";
   InverseName: string = "";
-  FromCount:string="1";
-  ToCount:string="1";  
+  FromCount: string = "1";
+  ToCount: string = "1";
   constructor(
     name: string,
     inverseName: string,
     from?: NodeMetadata[],
-    to?: NodeMetadata[]
+    to?: NodeMetadata[],
+    fromCount?: string,
+    toCount?: string
   ) {
     this.Id = Guid.create();
     this.Name = name;
     this.InverseName = inverseName;
     if (from) this.From = from;
     if (to) this.To = to;
+    if (fromCount) this.FromCount = fromCount;
+    if (toCount) this.ToCount = toCount;
   }
 }
 

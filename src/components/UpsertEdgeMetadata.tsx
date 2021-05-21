@@ -35,6 +35,8 @@ function UpsertEdgeMetadata({
     [] as NodeMetadata[]
   );
   const [toNodeMetadatas, setToNodeMetadatas] = useState([] as NodeMetadata[]);
+  const [fromCount, setFromCount] = useState("1");
+  const [toCount, setToCount] = useState("1");
 
   useEffect(() => {
     getNodeMetadatas();
@@ -260,6 +262,14 @@ function UpsertEdgeMetadata({
           placeholder="Teached By"
           value={edgeInverseName}
           onChange={(e: any) => setEdgeInverseName(e.target.value)}
+        />
+        <FormOption
+          options={["1","N"]}
+          value={fromCount}
+          onChange={(a: any) => {
+           setFromCount(a.event.value);
+           console.log(fromCount);
+          }}
         />
       </div>
       <div className="flex flex-col items-start rounded px-4 border">

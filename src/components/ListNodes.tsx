@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NodeMetadata, Repository } from "../services/repository";
+import { Generator } from "../services/generator";
+
 import { MdDelete, MdEdit } from "react-icons/md";
 import UpsertNodeMetadata from "./UpsertNodeMetadata";
 import { toast } from "react-toastify";
@@ -27,7 +29,7 @@ function ListNodes() {
 
   const saveNewNode = (nm: NodeMetadata, index: number) => {
     setNewNode(null);
-    const nodeMetadataObjects: NodeMetadata[] = 
+    const nodeMetadataObjects: NodeMetadata[] =
       new Repository().UpsertNodeMetadata(nm);
 
     setNodeMetadatas([...nodeMetadataObjects]);
@@ -166,6 +168,11 @@ function ListNodes() {
           </div>
         </div>
       </div>
+      <FormButton
+        text="Create Schema"
+        color="bg-indigo-400"
+        onClick={() => new Generator(new Repository()).GetSchema()}
+      />
     </div>
   );
 }

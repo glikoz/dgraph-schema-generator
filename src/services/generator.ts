@@ -63,14 +63,12 @@ export class Generator {
         });
       });
     });
-    {
-    }
     nodes.forEach((node) => {
       //if(typeDict.has(node.Name))
 
-      schema += `type ${node.Name} implements ${typeDict
-        .get(node.Name)
-        ?.join(" & ")} {\n  \n}\n`;
+      let properties=node.Properties.map(prop=>`${prop.Name}:${prop.Type}`).join("\n");
+      schema +=`type ${node.Name} implements ${typeDict.get(node.Name)?.join(' & ')} {\n ${properties} \n}\n` ; 
+      
     });
     window.localStorage.setItem("schema", schema);
     return schema;

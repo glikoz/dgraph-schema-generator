@@ -6,6 +6,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import UpsertNodeMetadata from "./UpsertNodeMetadata";
 import { toast } from "react-toastify";
 import { Title, Subtitle, TitleH, FormButton } from "./UiComponents";
+import { Console } from "console";
 
 function ListNodes() {
   const [nodeMetadatas, setNodeMetadatas] = useState([] as NodeMetadata[]);
@@ -171,7 +172,7 @@ function ListNodes() {
       <FormButton
         text="Create Schema"
         color="bg-indigo-400"
-        onClick={() => new Generator(new Repository()).GetSchema()}
+        onClick={() =>console.log(new Generator(new Repository()).GetSchema())}
       />
     </div>
   );

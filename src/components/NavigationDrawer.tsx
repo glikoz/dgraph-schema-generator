@@ -48,6 +48,13 @@ function NavigationDrawer() {
           Edges
         </button>
         <button
+          onClick={() => history.push("/schema")}
+          className="text-lg ml-4 text-indigo-500 font-semibold flex"
+        >
+          <FaList size="25" className="mr-2" />
+          Preview Schema
+        </button>
+        <button
           onClick={() => history.push("/")}
           className="text-lg ml-4 text-indigo-500 font-semibold flex"
         >

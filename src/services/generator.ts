@@ -19,9 +19,9 @@ export class Generator {
     isPlural: boolean
   ): string {
     if (isPlural)
-      return "interface ${interfaceName} {\n ${codeName}:[${inverseInterfaceName}] @hasInverse(field:${transposeCodeName}) \n}\n";
+      return `interface ${interfaceName} {\n ${codeName}:[${inverseInterfaceName}] @hasInverse(field:${transposeCodeName}) \n}\n`;
     else
-      return "interface ${interfaceName} {\n ${codeName}:${inverseInterfaceName} @hasInverse(field:${transposeCodeName}) \n}\n";
+      return `interface ${interfaceName} {\n ${codeName}:${inverseInterfaceName} @hasInverse(field:${transposeCodeName}) \n}\n`;
   }
 
   GetSchema(): string {
@@ -31,7 +31,7 @@ export class Generator {
     let schema = "";
     const typeDict = new Map<string, string[]>();
     edges.forEach((edge) => {
-      let interfaceName = "I" + uid.stamp(6);
+      let interfaceName = "I" + uid.stamp(10);
       let inverseInterfaceName = interfaceName + "_";
       schema += this.GetInterface(
         interfaceName,
@@ -68,10 +68,11 @@ export class Generator {
     nodes.forEach((node) => {
       //if(typeDict.has(node.Name))
 
-      schema +=
-        "type ${node.Name} implements ${typeDict.get(node.Name)?.join(' & ')} {\n  \n}\n";
+      schema += `type ${node.Name} implements ${typeDict
+        .get(node.Name)
+        ?.join(" & ")} {\n  \n}\n`;
     });
-
+    window.localStorage.setItem("schema", schema);
     return schema;
   }
 }

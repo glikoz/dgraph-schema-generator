@@ -19,6 +19,7 @@ type ButtonProps = {
   onClick: any;
   text: string;
   color?: string;
+  paddingX?: string;
 };
 export const Title = ({ text }: TextProps) => (
   <h1 className="text-3xl font-semibold">{text}</h1>
@@ -80,11 +81,12 @@ export const FormOption = ({
   </div>
 );
 
-export const FormButton = ({ text, onClick, color }: ButtonProps) => (
+export const FormButton = ({ text, onClick, color, paddingX }: ButtonProps) => (
   <div className="flex  flex-col items-start my-4">
     <button
       className={
-        "text-lg px-4 py-1 h-10 text-white rounded self-center " + color
+        `text-lg py-1  ${paddingX} px-4 h-10 text-white rounded self-center ` +
+        color
       }
       onClick={onClick}
     >

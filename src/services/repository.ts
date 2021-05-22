@@ -37,6 +37,12 @@ export class Repository {
       ? JSON.parse(window.localStorage.getItem("edgemetadatas")!)
       : [];
   }
+
+  GetSchema(): string {
+    return window.localStorage.getItem("schema")
+      ? window.localStorage.getItem("schema")!
+      : "";
+  }
 }
 
 export class EdgeMetadata {

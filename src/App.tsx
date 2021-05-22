@@ -3,6 +3,7 @@ import HomePage from "./components/HomePage";
 import ListNodes from "./components/ListNodes";
 import ListEdges from "./components/ListEdges";
 import ThirdPage from "./components/ThirdPage";
+import PreviewSchema from "./components/PreviewSchema";
 import Menu from "./components/Menu";
 import NavigationDrawer from "./components/NavigationDrawer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -19,6 +20,7 @@ function App() {
             <NavigationDrawer />
             <div className="flex w-full" style={{ backgroundColor: "#EEF2F6" }}>
               <Switch>
+                <Route path="/schema" component={() => <PreviewSchema />} />
                 <Route path="/thirdpage" component={() => <ThirdPage />} />
                 <Route path="/listedges" component={() => <ListEdges />} />
                 <Route path="/listnodes" component={() => <ListNodes />} />

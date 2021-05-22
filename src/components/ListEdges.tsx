@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EdgeMetadata, Repository } from "../services/repository";
+import { Generator } from "../services/generator";
 import { MdDelete, MdEdit } from "react-icons/md";
 import UpsertEdgeMetadata from "./UpsertEdgeMetadata";
 import { toast } from "react-toastify";
@@ -159,6 +160,11 @@ function ListEdges() {
           </div>
         </div>
       </div>
+      <FormButton
+        text="Create Schema"
+        color="bg-indigo-400"
+        onClick={() => console.log(new Generator(new Repository()).GetSchema())}
+      />
     </div>
   );
 }

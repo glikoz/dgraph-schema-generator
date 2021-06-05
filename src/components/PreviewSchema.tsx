@@ -18,10 +18,13 @@ function PreviewSchema() {
   const [endpointUrl, setEndpointUrl] = useState("http://localhost:5000");
 
   useEffect(() => {
+    const url = window.localStorage.getItem("dgraph_url");
+    if (url) setEndpointUrl(url);
     setSchema(repository.GetSchema());
   }, []);
 
   const sendSchema = () => {
+    window.localStorage.setItem("dgraph_url", endpointUrl);
     fetch(endpointUrl, {
       method: "POST",
       headers: {

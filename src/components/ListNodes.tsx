@@ -73,7 +73,7 @@ function ListNodes() {
                   {nodeMetadatas.map((e: any, index: number) => (
                     <>
                       <tr
-                        className="border-b  h-64 border-gray-200 bg-gray-50 hover:bg-gray-100"
+                        className="border-b  h-18 border-gray-200 bg-gray-50 hover:bg-gray-100"
                         key={index}
                       >
                         <td className="py-1 px-6 text-left h-12">
@@ -110,13 +110,11 @@ function ListNodes() {
                         </td>
                       </tr>
                       {showEdit[index] && (
-                        <div className="flex">
-                          <UpsertNodeMetadata
-                            nodemetadata={e}
-                            index={index}
-                            callbackMetadata={(e) => updateNode(e, index)}
-                          />
-                        </div>
+                        <UpsertNodeMetadata
+                          nodemetadata={e}
+                          index={index}
+                          callbackMetadata={(e) => updateNode(e, index)}
+                        />
                       )}
                     </>
                   ))}
@@ -169,11 +167,6 @@ function ListNodes() {
           </div>
         </div>
       </div>
-      <FormButton
-        text="Create Schema"
-        color="bg-indigo-400"
-        onClick={() =>console.log(new Generator(new Repository()).GetSchema())}
-      />
     </div>
   );
 }

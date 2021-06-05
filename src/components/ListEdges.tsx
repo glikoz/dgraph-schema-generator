@@ -64,7 +64,7 @@ function ListEdges() {
                   {edgeMetadatas.map((e: any, index: number) => (
                     <>
                       <tr
-                        className="border-b  h-64 border-gray-200 bg-gray-50 hover:bg-gray-100"
+                        className="border-b  h-18 border-gray-200 bg-gray-50 hover:bg-gray-100"
                         key={index}
                       >
                         <td className="py-1 px-6 text-left h-12">
@@ -160,11 +160,6 @@ function ListEdges() {
           </div>
         </div>
       </div>
-      <FormButton
-        text="Create Schema"
-        color="bg-indigo-400"
-        onClick={() => console.log(new Generator(new Repository()).GetSchema())}
-      />
     </div>
   );
 }

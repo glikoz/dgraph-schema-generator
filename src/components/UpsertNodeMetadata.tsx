@@ -91,7 +91,7 @@ function UpsertNodeMetadata({
 
   return (
     <div
-      className=" md:text-3xl mx-8 py-4 rounded-lg w-full"
+      className=" md:text-3xl mx-8 py-4 flex flex-col rounded-lg w-full"
       style={{ backgroundColor: "white" }}
     >
       <FormText
@@ -101,8 +101,7 @@ function UpsertNodeMetadata({
         onChange={(e: any) => setNodeName(e.target.value)}
       />
       <div className="flex flex-col items-start rounded p-4 border">
-        <div className="flex" style={{ alignItems: "flex-end" }}></div>
-        <div className="flex flex-col mt-8 items-start">
+        <div className="flex flex-col mt-2 items-start">
           <div className="flex items-center justify-between w-full">
             <TitleH text="Properties" />
             <FormButton
@@ -250,7 +249,7 @@ function UpsertNodeMetadata({
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end w-full">
         <FormButton
           text="Save Changes"
           color="bg-indigo-400"
